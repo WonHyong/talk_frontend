@@ -8,8 +8,6 @@ import 'package:lotalk_frontend/src/network/post_client.dart';
 import 'package:lotalk_frontend/src/network/token_interceptor.dart';
 
 class PostRepository {
-  static const String _baseUrl = "http://43.203.90.166:8080/api/boards";
-
   // singleton
   static PostRepository? _instance;
   late PostClient _client;
@@ -17,7 +15,7 @@ class PostRepository {
   PostRepository._privateConstructor() {
     final dio = Dio();
     dio.interceptors.add(TokenInterceptor());
-    _client = PostClient(dio, baseUrl: _baseUrl);
+    _client = PostClient(dio);
   }
 
   factory PostRepository() => _instance ??= PostRepository._privateConstructor();

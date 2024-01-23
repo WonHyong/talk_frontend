@@ -7,7 +7,7 @@ class TokenInterceptor extends Interceptor {
     RequestOptions options, 
     RequestInterceptorHandler handler,
   ) async {
-    final jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlkIjoiMSIsImlhdCI6MTcwNjAyNjg3MSwiZXhwIjoxNzA2MDI5ODcxfQ.EbODCvNDjWezuovStpACZ7AtJZA-HcD9hG1q4Sa1ijGJrmODbGIsOuwQ56N81IeaHH5gY9TMKN_mszM54ThcgA";
+    final jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlkIjoiMSIsImlhdCI6MTcwNjAzMTg1OSwiZXhwIjoxNzA2MDM0ODU5fQ.BA9NVzqBvDDVc2QjeYntLxlV6UrUYGYvrZZn-LllU5ul5GzC1qSKObEWXbvrUhDoUghQGsl_WQcnpB-r4-3_Ow";
     options.headers['X-AUTH-TOKEN'] = jwtToken;
     super.onRequest(options, handler);
   }
@@ -17,7 +17,8 @@ class TokenInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    // If the error is 401 Unauthorized, log out the user
+    // If the error is 401 Unauthorized
+    // TODO: refresh token
     if (err.response?.statusCode == 401) {
       print("INVALID TOKEN ERROR");
     }

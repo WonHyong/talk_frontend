@@ -12,7 +12,9 @@ class _PostClient implements PostClient {
   _PostClient(
     this._dio, {
     this.baseUrl,
-  });
+  }) {
+    baseUrl ??= 'http://43.203.90.166:8080/api/boards';
+  }
 
   final Dio _dio;
 

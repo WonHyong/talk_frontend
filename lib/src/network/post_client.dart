@@ -6,7 +6,7 @@ import 'package:lotalk_frontend/src/model/post.dart';
 
 part 'post_client.g.dart';
 
-@RestApi()
+@RestApi(baseUrl: "http://43.203.90.166:8080/api/boards")
 abstract class PostClient {
   factory PostClient(Dio dio, {String baseUrl}) = _PostClient;
 

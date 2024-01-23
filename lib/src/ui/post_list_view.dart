@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lotalk_frontend/src/model/page_response.dart';
 import 'package:lotalk_frontend/src/model/post.dart';
 import 'package:lotalk_frontend/src/repository/post_repository.dart';
+import 'package:lotalk_frontend/src/ui/post_detail_view.dart';
 
 class PostListView extends StatefulWidget {
   const PostListView({Key? key}) : super(key: key);
@@ -23,11 +24,10 @@ class _PostListViewState extends State<PostListView> {
   postCard({
     required Post post,
   }) {
-    return Card(
-      child: Column(
-        children: [
-          Text(post.title),
-        ]),
+    return ListTile(
+      title: Text(post.title),
+      subtitle: Text(post.writer),
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PostDetailView(post: post))),
     );
   }
 
@@ -58,5 +58,4 @@ class _PostListViewState extends State<PostListView> {
       )
     );
   }
-
 }
