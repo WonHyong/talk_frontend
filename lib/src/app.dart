@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lotalk_frontend/src/page/post_list_view.dart';
+import 'package:lotalk_frontend/src/ui/post_list_view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
