@@ -1,4 +1,4 @@
-# lotalk_frontend2
+# lotalk_frontend
 
 A new Flutter project.
 
