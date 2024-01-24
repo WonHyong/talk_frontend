@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:lotalk_frontend/src/shared_preferences.dart';
+import 'package:lotalk_frontend/src/preferences.dart';
 
 class TokenInterceptor extends Interceptor {
   @override
