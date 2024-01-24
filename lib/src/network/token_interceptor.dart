@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'dart:html';
+import 'package:lotalk_frontend/src/shared_preferences.dart';
 
 class TokenInterceptor extends Interceptor {
   @override
@@ -7,7 +7,7 @@ class TokenInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final jwtToken = window.localStorage['jwt_access'];
+    final String jwtToken = await Preferences.getAccessToken();
     options.headers['X-AUTH-TOKEN'] = jwtToken;
     super.onRequest(options, handler);
   }

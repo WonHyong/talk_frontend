@@ -25,7 +25,7 @@ class _PostDetailState extends State<PostDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_post.title),
+        title: Text(widget.post.title),
       ),
       body: FutureBuilder(
           future: widget.repository.getPostDetail(widget.post.id),
