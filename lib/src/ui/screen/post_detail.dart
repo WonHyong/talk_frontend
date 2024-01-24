@@ -3,8 +3,10 @@ import 'package:lotalk_frontend/src/model/post.dart';
 import 'package:lotalk_frontend/src/repository/post_repository.dart';
 
 class PostDetail extends StatefulWidget {
-  const PostDetail({Key? key, required this.post}) : super(key: key);
+  const PostDetail({Key? key, required this.post, required this.repository})
+      : super(key: key);
 
+  final PostRepository repository;
   final Post post;
 
   @override
@@ -12,24 +14,19 @@ class PostDetail extends StatefulWidget {
 }
 
 class _PostDetailState extends State<PostDetail> {
-  late PostRepository _postRepository;
-  late Post _post;
-
   @override
   void initState() {
     super.initState();
-    _postRepository = PostRepository();
-    _post = widget.post;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_post.title),
+        title: Text(widget.post.title),
       ),
       body: FutureBuilder(
-          future: _postRepository.getPostDetail(_post.id),
+          future: widget.repository.getPostDetail(widget.post.id),
           initialData: widget.post,
           builder: (_, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -43,10 +40,8 @@ class _PostDetailState extends State<PostDetail> {
   }
 
   Widget _buildPostDetail(BuildContext context, Post post) {
-    _post = post;
-
     return Center(
-      child: Text(_post.content ?? "None"),
+      child: Text(post.content ?? "None"),
     );
   }
 }

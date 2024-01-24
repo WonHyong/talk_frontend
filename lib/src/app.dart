@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: PostList(repository: PostRepository()),
+      home: PostList(repository: PostRepository.instance),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import 'package:lotalk_frontend/src/model/page_response.dart';
 import 'package:lotalk_frontend/src/model/post.dart';
 import 'package:lotalk_frontend/src/repository/post_repository.dart';
 import 'package:lotalk_frontend/src/ui/screen/post_detail.dart';
@@ -55,8 +54,13 @@ class _PostListState extends State<PostList> {
       child: ListTile(
         title: Text(post.title),
         subtitle: Text(post.writer),
-        onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => PostDetail(post: post))),
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PostDetail(
+                      post: post,
+                      repository: _repository,
+                    ))),
       ),
     );
   }

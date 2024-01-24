@@ -8,17 +8,16 @@ import 'package:lotalk_frontend/src/network/token_interceptor.dart';
 
 class PostRepository {
   // singleton
+  static PostRepository get instance => _instance ??= PostRepository._();
   static PostRepository? _instance;
+
   late PostClient _client;
 
-  PostRepository._privateConstructor() {
+  PostRepository._() {
     final dio = Dio();
     dio.interceptors.add(TokenInterceptor());
     _client = PostClient(dio);
   }
-
-  factory PostRepository() =>
-      _instance ??= PostRepository._privateConstructor();
 
   Future<PageResponse<Post>> getPosts({int page = 0}) => _client.getPosts(page);
   Future<Post> getPostDetail(int postId) => _client.getPostDetail(postId);
