@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lotalk_frontend/src/repository/post_repository.dart';
 import 'package:lotalk_frontend/src/repository/user_repository.dart';
 import 'package:lotalk_frontend/src/ui/screen/login_page.dart';
-import 'package:lotalk_frontend/src/ui/screen/post_list.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

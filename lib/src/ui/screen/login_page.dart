@@ -4,7 +4,7 @@ import 'package:lotalk_frontend/src/ui/screen/home_page.dart';
 
 import '../../repository/user_repository.dart';
 
-class LoginPage extends StatefulWidget{
+class LoginPage extends StatefulWidget {
   const LoginPage({required this.repository, Key? key}) : super(key: key);
 
   final UserRepository repository;
@@ -13,9 +13,9 @@ class LoginPage extends StatefulWidget{
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>{
+class _LoginPageState extends State<LoginPage> {
   UserRepository get _repository => widget.repository;
-  
+
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('로그인'),
+        title: const Text('로그인'),
       ),
       body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -32,48 +32,47 @@ class _LoginPageState extends State<LoginPage>{
             children: <Widget>[
               TextField(
                 controller: _usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: '아이디',
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: _passwordController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: '비밀번호',
                 ),
                 obscureText: true,
               ),
-              SizedBox(height: 32.0),
+              const SizedBox(height: 32.0),
               ElevatedButton(
-                onPressed: () async{
-                  login();
-                },
-                child: Text('로그인'),
+                onPressed: _login,
+                child: const Text('로그인'),
               ),
-              SizedBox(height: 32.0),
+              const SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: _moveToJoin,
-                child: Text('회원가입'),
+                child: const Text('회원가입'),
               ),
             ],
-          )
-      ),
+          )),
     );
   }
 
-  Future<void> login() async{
+  void _login() async {
     print('login 시작');
-    final response = await _repository.login(Login(name: _usernameController.text, password: _passwordController.text));
-    print('login response: ${response.toString()}');
-    _moveToHome();
+    _repository
+        .login(Login(
+            name: _usernameController.text, password: _passwordController.text))
+        .then((token) => {_moveToHome()})
+        .catchError((err) {
+      print("ERROR_LOGIN: $err");
+    });
   }
 
   void _moveToHome() {
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage())
-    );
+        context, MaterialPageRoute(builder: (context) => const HomePage()));
   }
 
   void _moveToJoin() {

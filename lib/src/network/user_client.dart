@@ -1,9 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-import 'package:lotalk_frontend/src/model/page_response.dart';
-import 'package:lotalk_frontend/src/model/post.dart';
-
 import '../model/login.dart';
 import '../model/token.dart';
 
