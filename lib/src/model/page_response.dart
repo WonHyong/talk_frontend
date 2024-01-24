@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'page_response.g.dart';
 
-@JsonSerializable(genericArgumentFactories: true)
+@JsonSerializable(genericArgumentFactories: true, explicitToJson: true, createToJson: false)
 class PageResponse<T> {
   List<T> content;
   int size;

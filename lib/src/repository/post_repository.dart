@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -18,12 +17,14 @@ class PostRepository {
     _client = PostClient(dio);
   }
 
-  factory PostRepository() => _instance ??= PostRepository._privateConstructor();
+  factory PostRepository() =>
+      _instance ??= PostRepository._privateConstructor();
 
   Future<PageResponse<Post>> getPosts({int page = 0}) => _client.getPosts(page);
   Future<Post> getPostDetail(int postId) => _client.getPostDetail(postId);
   Future<Post> createPost(Post body) => _client.createPost(body);
-  Future<Post> updatePost(int postId, Post body) => _client.updatePost(postId, body);
+  Future<Post> updatePost(int postId, Post body) =>
+      _client.updatePost(postId, body);
   Future<HttpResponse> deletePost(int postId) => _client.deletePost(postId);
   Future<HttpResponse> likePost(int postId) => _client.likePost(postId);
 }

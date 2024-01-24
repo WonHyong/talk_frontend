@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lotalk_frontend/src/ui/post_list_view.dart';
+import 'package:lotalk_frontend/src/repository/post_repository.dart';
+import 'package:lotalk_frontend/src/ui/screen/post_list.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const PostListView(),
+      home: PostList(repository: PostRepository()),
     );
   }
 }
