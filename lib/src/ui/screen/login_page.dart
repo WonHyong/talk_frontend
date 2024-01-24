@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lotalk_frontend/src/model/login.dart';
+import 'package:lotalk_frontend/src/repository/post_repository.dart';
 import 'package:lotalk_frontend/src/ui/screen/home_page.dart';
+import 'package:lotalk_frontend/src/ui/screen/post_list.dart';
 
 import '../../repository/user_repository.dart';
 
@@ -64,7 +66,10 @@ class _LoginPageState extends State<LoginPage> {
     _repository
         .login(Login(
             name: _usernameController.text, password: _passwordController.text))
-        .then((token) => {_moveToHome()})
+        .then((token) => {
+              //TODO: save token to storage
+              _moveToHome()
+            })
         .catchError((err) {
       print("ERROR_LOGIN: $err");
     });
@@ -72,7 +77,10 @@ class _LoginPageState extends State<LoginPage> {
 
   void _moveToHome() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const HomePage()));
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                PostList(repository: PostRepository.instance)));
   }
 
   void _moveToJoin() {

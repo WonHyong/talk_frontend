@@ -7,7 +7,7 @@ class TokenInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     const jwtToken =
-        "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlkIjoiMSIsImlhdCI6MTcwNjA4MzUzMCwiZXhwIjoxNzA2MDg2NTMwfQ.eI-IIeJc4i0RbRJ5QcKHo2Js0hLoa21g54WVJr3FCcwpXszAO0fmpyGk0JwX5yGlnYnuymim3QtvFJDUV9MWlw";
+        "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlkIjoiMSIsImlhdCI6MTcwNjEwMzQzMSwiZXhwIjoxNzA2MTA2NDMxfQ.dPFGxONB9DUrUp3lRAfTcZ346We5KZgLLQjxTJamB8CedY30oKJjku6EwP1I62ZqrBevb1EYSR0d227MWHQL_g";
     options.headers['X-AUTH-TOKEN'] = jwtToken;
     super.onRequest(options, handler);
   }
