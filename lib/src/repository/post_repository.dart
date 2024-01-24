@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:lotalk_frontend/src/repository/base_repository.dart';
 import 'package:retrofit/retrofit.dart';
 
 import 'package:lotalk_frontend/src/model/page_response.dart';
@@ -6,7 +7,7 @@ import 'package:lotalk_frontend/src/model/post.dart';
 import 'package:lotalk_frontend/src/network/post_client.dart';
 import 'package:lotalk_frontend/src/network/token_interceptor.dart';
 
-class PostRepository {
+class PostRepository implements BaseRepository {
   // singleton
   static PostRepository get instance =>
       _instance ??= _instance = PostRepository._();

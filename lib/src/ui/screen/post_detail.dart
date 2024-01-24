@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 import 'package:lotalk_frontend/src/model/post.dart';
 import 'package:lotalk_frontend/src/repository/post_repository.dart';
 
@@ -14,6 +15,8 @@ class PostDetail extends StatefulWidget {
 }
 
 class _PostDetailState extends State<PostDetail> {
+  late Post _post;
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +26,7 @@ class _PostDetailState extends State<PostDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.post.title),
+        title: Text(_post.title),
       ),
       body: FutureBuilder(
           future: widget.repository.getPostDetail(widget.post.id),
@@ -34,14 +37,15 @@ class _PostDetailState extends State<PostDetail> {
                 child: CircularProgressIndicator(),
               );
             }
-            return _buildPostDetail(context, snapshot.data);
+            _post = snapshot.data;
+            return _buildPostDetail(context);
           }),
     );
   }
 
-  Widget _buildPostDetail(BuildContext context, Post post) {
+  Widget _buildPostDetail(BuildContext context) {
     return Center(
-      child: Text(post.content ?? "None"),
+      child: Text(_post.content ?? "None"),
     );
   }
 }
