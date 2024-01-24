@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'dart:html';
 
 class TokenInterceptor extends Interceptor {
   @override
@@ -6,8 +7,7 @@ class TokenInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    const jwtToken =
-        "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlkIjoiMSIsImlhdCI6MTcwNjEwMzQzMSwiZXhwIjoxNzA2MTA2NDMxfQ.dPFGxONB9DUrUp3lRAfTcZ346We5KZgLLQjxTJamB8CedY30oKJjku6EwP1I62ZqrBevb1EYSR0d227MWHQL_g";
+    final jwtToken = window.localStorage['jwt_access'];
     options.headers['X-AUTH-TOKEN'] = jwtToken;
     super.onRequest(options, handler);
   }
