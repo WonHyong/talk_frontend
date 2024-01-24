@@ -8,7 +8,8 @@ import 'package:lotalk_frontend/src/network/token_interceptor.dart';
 
 class PostRepository {
   // singleton
-  static PostRepository get instance => _instance ??= PostRepository._();
+  static PostRepository get instance =>
+      _instance ??= _instance = PostRepository._();
   static PostRepository? _instance;
 
   late PostClient _client;
