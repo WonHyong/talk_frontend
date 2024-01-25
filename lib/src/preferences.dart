@@ -1,16 +1,26 @@
-import 'package:lotalk_frontend/src/model/token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Preferences {
-  static const String _ACCESS_TOKEN_KEY = "JWT_ACCESS";
+class SharedPrefs {
+  static final SharedPrefs _instance = SharedPrefs._internal();
+  factory SharedPrefs() => _instance;
+  SharedPrefs._internal();
 
-  static Future<void> storeToken(Token token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_ACCESS_TOKEN_KEY, token.accessToken);
+  late final SharedPreferences _prefs;
+  static const String _USER_NAME = "USER_NAME";
+  static const String _IS_LOGINED_BEFORE = "LOGINED_BEFORE";
+
+  Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
   }
 
-  static Future<String> getAccessToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return Future.value(prefs.getString(_ACCESS_TOKEN_KEY));
+  String get username => _prefs.getString(_USER_NAME) ?? "";
+  set username(String value) {
+    _prefs.setString(_USER_NAME, value);
+  }
+
+  // TODO: sync ??
+  bool get isFirstLogin => _prefs.getBool(_IS_LOGINED_BEFORE) ?? true;
+  set isFirstLogin(bool value) {
+    _prefs.setBool(_IS_LOGINED_BEFORE, value);
   }
 }

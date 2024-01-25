@@ -19,4 +19,7 @@ abstract class UserClient {
 
   @POST('/new')
   Future<HttpResponse> join(@Body() Join request);
+
+  @POST('/auth/refresh')
+  Future<Token> refresh(String username, String refreshToken);
 }

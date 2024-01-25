@@ -7,9 +7,9 @@ part of 'token.dart';
 // **************************************************************************
 
 Token _$TokenFromJson(Map<String, dynamic> json) => Token(
-      name: json['name'] as String?,
-      accessToken: json['accessToken'] as String?,
-      expiration: json['expiration'] as String?,
+      name: json['name'] as String,
+      accessToken: json['accessToken'] as String,
+      expiration: json['expiration'] as String,
     );
 
 Map<String, dynamic> _$TokenToJson(Token instance) => <String, dynamic>{

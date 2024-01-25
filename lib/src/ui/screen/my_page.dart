@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyPage extends StatefulWidget{
+  const MyPage({super.key});
+
 
   @override
   _MyPageState createState() => _MyPageState();

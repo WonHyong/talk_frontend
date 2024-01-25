@@ -4,11 +4,11 @@ import 'package:lotalk_frontend/src/model/login.dart';
 import 'package:lotalk_frontend/src/ui/screen/home_page.dart';
 import 'package:lotalk_frontend/src/model/token.dart';
 
-import '../../network/token_interceptor.dart';
+import 'package:lotalk_frontend/src/network/token_interceptor.dart';
 import '../../repository/user_repository.dart';
 import 'join_page.dart';
 
-class LoginPage extends StatefulWidget{
+class LoginPage extends StatefulWidget {
   const LoginPage({required this.repository, Key? key}) : super(key: key);
 
   final UserRepository repository;
@@ -17,9 +17,9 @@ class LoginPage extends StatefulWidget{
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>{
+class _LoginPageState extends State<LoginPage> {
   UserRepository get _repository => widget.repository;
-  
+
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage>{
               ),
               SizedBox(height: 32.0),
               ElevatedButton(
-                onPressed: () async{
+                onPressed: () async {
                   login();
                 },
                 child: Text('로그인'),
@@ -61,23 +61,22 @@ class _LoginPageState extends State<LoginPage>{
                 child: Text('회원가입'),
               ),
             ],
-          )
-      ),
+          )),
     );
   }
 
-  Future<void> login() async{
+  Future<void> login() async {
     print('login 시작');
-    try{
+    try {
       print('login 본격적인 시작');
       Token response = await (_repository.login(Login(
-        name: _usernameController.text, password: _passwordController.text)));
+          name: _usernameController.text, password: _passwordController.text)));
       print('accessToken: $response');
 
-      await saveToken(response);
+      TokenInterceptor.token = response;
 
-      _moveToHome();
-    }catch(e){
+      _moveToPostList();
+    } catch (e) {
       if (e is DioException) {
         // DioError 객체에서 에러 정보를 얻을 수 있습니다.
         if (e.response != null) {
@@ -94,25 +93,16 @@ class _LoginPageState extends State<LoginPage>{
     }
   }
 
-  Future<void> saveToken(Token response) async {
-    TokenInterceptor tokenInterceptor = TokenInterceptor();
-
-    tokenInterceptor.setAccessToken(response.accessToken);
-
-    print('받아온 accessToken: ${response.accessToken}');
-  }
-
-  void _moveToHome() {
+  void _moveToPostList() {
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage())
-    );
+        context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   void _moveToJoin() {
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => JoinPage(repository: UserRepository.instance))
-    );
+        MaterialPageRoute(
+            builder: (context) =>
+                JoinPage(repository: UserRepository.instance)));
   }
 }

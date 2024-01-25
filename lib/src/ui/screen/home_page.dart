@@ -8,6 +8,8 @@ import '../../repository/post_repository.dart';
 import 'chat_page.dart';
 
 class HomePage extends StatefulWidget{
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 
@@ -26,14 +28,14 @@ class _HomePageState extends State<HomePage>{
 
   void onPageChanged(int page) {
     setState(() {
-      this._page = page;
+      _page = page;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    pageController = new PageController();
+    pageController = PageController();
   }
 
   @override
@@ -52,9 +54,9 @@ class _HomePageState extends State<HomePage>{
         onPageChanged: onPageChanged,
         children: [
           Container(color: Colors.white, child: PostList(repository: PostRepository.instance)),
-          Container(color: Colors.white, child: ChatPage()),
-          Container(color: Colors.white, child: MyPage()),
-          Container(color: Colors.white, child: SettingPage()),
+          Container(color: Colors.white, child: const ChatPage()),
+          Container(color: Colors.white, child: const MyPage()),
+          Container(color: Colors.white, child: const SettingPage()),
         ],
       ),
       bottomNavigationBar: CupertinoTabBar(

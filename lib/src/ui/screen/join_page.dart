@@ -1,12 +1,9 @@
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lotalk_frontend/src/model/join.dart';
 
-import '../../model/login.dart';
 import '../../repository/user_repository.dart';
-import 'login_page.dart';
 
 class JoinPage extends StatefulWidget{
   const JoinPage({required this.repository, Key? key}) : super(key: key);
@@ -28,7 +25,7 @@ class _JoinPageState extends State<JoinPage>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('회원 가입'),
+        title: const Text('회원 가입'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,8 +65,8 @@ class _JoinPageState extends State<JoinPage>{
         password: _pwController.text,
       );
       final response = await _repository.join(joinInfo);
-      print('_signUp try 문 실행 중: ${response.response?.statusCode}');
-      if(response.response?.statusCode == 200){
+      print('_signUp try 문 실행 중: ${response.response.statusCode}');
+      if(response.response.statusCode == 200){
         Navigator.pop(context);
       }
     }catch(e){
