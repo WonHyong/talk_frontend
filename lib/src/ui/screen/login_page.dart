@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lotalk_frontend/src/model/login.dart';
 import 'package:lotalk_frontend/src/model/token.dart';
 import 'package:lotalk_frontend/src/repository/post_repository.dart';
-import 'package:lotalk_frontend/src/shared_preferences.dart';
+import 'package:lotalk_frontend/src/preferences.dart';
 import 'package:lotalk_frontend/src/ui/screen/post_list.dart';
 
 import '../../repository/user_repository.dart';
@@ -64,11 +64,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() async {
+    //TODO: check has token?
+
     Token token = await _repository.login(Login(
         name: _usernameController.text, password: _passwordController.text));
 
-    Preferences.storeToken(token).then((value) => null);
-    _moveToHome();
+    Preferences.storeToken(token).then((value) => _moveToHome());
   }
 
   void _moveToHome() {
