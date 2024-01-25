@@ -1,14 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
 import 'package:lotalk_frontend/src/model/login.dart';
+import 'package:lotalk_frontend/src/ui/screen/home_page.dart';
 import 'package:lotalk_frontend/src/model/token.dart';
-import 'package:lotalk_frontend/src/repository/post_repository.dart';
-import 'package:lotalk_frontend/src/preferences.dart';
-import 'package:lotalk_frontend/src/ui/screen/post_list.dart';
 
+import '../../network/token_interceptor.dart';
 import '../../repository/user_repository.dart';
+import 'join_page.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatefulWidget{
   const LoginPage({required this.repository, Key? key}) : super(key: key);
 
   final UserRepository repository;
@@ -17,9 +17,9 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>{
   UserRepository get _repository => widget.repository;
-
+  
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('로그인'),
+        title: Text('로그인'),
       ),
       body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -36,57 +36,83 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               TextField(
                 controller: _usernameController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: '아이디',
                 ),
               ),
-              const SizedBox(height: 16.0),
+              SizedBox(height: 16.0),
               TextField(
                 controller: _passwordController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: '비밀번호',
                 ),
                 obscureText: true,
               ),
-              const SizedBox(height: 32.0),
+              SizedBox(height: 32.0),
               ElevatedButton(
-                onPressed: _login,
-                child: const Text('로그인'),
+                onPressed: () async{
+                  login();
+                },
+                child: Text('로그인'),
               ),
-              const SizedBox(height: 32.0),
+              SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: _moveToJoin,
-                child: const Text('회원가입'),
+                child: Text('회원가입'),
               ),
             ],
-          )),
+          )
+      ),
     );
   }
 
-  void _login() async {
-    //TODO: check has token?
+  Future<void> login() async{
+    print('login 시작');
+    try{
+      print('login 본격적인 시작');
+      Token response = await (_repository.login(Login(
+        name: _usernameController.text, password: _passwordController.text)));
+      print('accessToken: $response');
 
-    Token token = await _repository.login(Login(
-        name: _usernameController.text, password: _passwordController.text));
+      await saveToken(response);
 
-    Preferences.storeToken(token).then((value) => _moveToHome());
+      _moveToHome();
+    }catch(e){
+      if (e is DioException) {
+        // DioError 객체에서 에러 정보를 얻을 수 있습니다.
+        if (e.response != null) {
+          // 서버로부터의 응답이 있는 경우
+          print('DioError - Response data: ${e.response!.data}');
+        } else {
+          // 서버로의 요청이 실패한 경우
+          print('DioError - No response');
+        }
+      } else {
+        // DioError가 아닌 다른 예외인 경우
+        print('Error: $e');
+      }
+    }
+  }
+
+  Future<void> saveToken(Token response) async {
+    TokenInterceptor tokenInterceptor = TokenInterceptor();
+
+    tokenInterceptor.setAccessToken(response.accessToken);
+
+    print('받아온 accessToken: ${response.accessToken}');
   }
 
   void _moveToHome() {
     Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) => PostList(
-                  repository: PostRepository.instance,
-                )));
+        MaterialPageRoute(builder: (context) => HomePage())
+    );
   }
 
   void _moveToJoin() {
-    print('moveToJoin');
-    /*
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => JoinPage())
-    );*/
+        MaterialPageRoute(builder: (context) => JoinPage(repository: UserRepository.instance))
+    );
   }
 }

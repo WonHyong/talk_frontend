@@ -4,12 +4,14 @@ part 'token.g.dart';
 
 @JsonSerializable()
 class Token {
-  String name;
-  String accessToken;
+  String? name;
+  String? accessToken;
+  String? expiration;
 
   Token({
     required this.name,
     required this.accessToken,
+    required this.expiration
   });
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);

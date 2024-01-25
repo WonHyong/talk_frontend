@@ -1,14 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:lotalk_frontend/src/preferences.dart';
 
 class TokenInterceptor extends Interceptor {
+  String? accessToken;
+
+  void setAccessToken(String? token){
+    accessToken = token;
+  }
+
   @override
   Future onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final String jwtToken = await Preferences.getAccessToken();
-    options.headers['X-AUTH-TOKEN'] = jwtToken;
+    options.headers['X-AUTH-TOKEN'] = accessToken;
     super.onRequest(options, handler);
   }
 
