@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:lotalk_frontend/src/model/detail_post.dart';
 
 import 'package:lotalk_frontend/src/model/post.dart';
 import 'package:lotalk_frontend/src/repository/post_repository.dart';
+import 'package:lotalk_frontend/src/ui/screen/post_create_page.dart';
 import 'package:lotalk_frontend/src/ui/screen/post_detail.dart';
 
 class PostList extends StatefulWidget {
@@ -18,6 +20,8 @@ class _PostListState extends State<PostList> {
   PostRepository get _repository => widget.repository;
 
   final _pagingController = PagingController<int, Post>(firstPageKey: 0);
+
+  get detail => null;
 
   @override
   void initState() {
@@ -37,6 +41,7 @@ class _PostListState extends State<PostList> {
         _pagingController.appendPage(newPage.content, pageKey + 1);
       }
     } catch (e) {
+      print('fetch error: $e');
       _pagingController.error = e;
     }
   }
@@ -52,33 +57,52 @@ class _PostListState extends State<PostList> {
   }) {
     return Card(
       child: ListTile(
-        title: Text(post.title),
+        title: Text('${post.title}   (${post.view})'),
         subtitle: Text(post.writer),
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => PostDetail(
-                      post: post,
-                      repository: _repository,
-                    ))),
+        onTap: () {
+          _moveToDetailPage(post);
+        }
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) => RefreshIndicator(
-        onRefresh: () => Future.sync(
-          () => _pagingController.refresh(),
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Text('게시판'),
+    ),
+    body: RefreshIndicator(
+      onRefresh: () => Future.sync(
+            () => _pagingController.refresh(),
+      ),
+      child: PagedListView.separated(
+        pagingController: _pagingController,
+        padding: const EdgeInsets.all(16),
+        separatorBuilder: (context, index) => const SizedBox(
+          height: 16,
         ),
-        child: PagedListView.separated(
-          pagingController: _pagingController,
-          padding: const EdgeInsets.all(16),
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 16,
-          ),
-          builderDelegate: PagedChildBuilderDelegate<Post>(
-            itemBuilder: (_, post, index) => postCard(post: post),
-          ),
+        builderDelegate: PagedChildBuilderDelegate<Post>(
+          itemBuilder: (_, post, index) => postCard(post: post),
         ),
-      );
+      ),
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: () {
+        _moveToCreatePage();
+      },
+      child: Icon(Icons.add),
+    ),
+  );
+  
+  void _moveToDetailPage(Post post){
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PostDetail(postId: post.id, repository: PostRepository.instance)));
+  }
+
+  void _moveToCreatePage(){
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PostCreatePage(repository: PostRepository.instance)));
+  }
 }

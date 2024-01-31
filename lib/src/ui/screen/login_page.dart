@@ -5,6 +5,9 @@ import 'package:lotalk_frontend/src/ui/screen/home_page.dart';
 import 'package:lotalk_frontend/src/model/token.dart';
 
 import 'package:lotalk_frontend/src/network/token_interceptor.dart';
+import 'package:lotalk_frontend/src/ui/screen/post_list.dart';
+import '../../preferences.dart';
+import '../../repository/post_repository.dart';
 import '../../repository/user_repository.dart';
 import 'join_page.dart';
 
@@ -71,7 +74,10 @@ class _LoginPageState extends State<LoginPage> {
       print('login 본격적인 시작');
       Token response = await (_repository.login(Login(
           name: _usernameController.text, password: _passwordController.text)));
-      print('accessToken: $response');
+      print('accessToken: ${response.accessToken}');
+
+
+      SharedPrefs().username = _usernameController.text;
 
       TokenInterceptor.token = response;
 

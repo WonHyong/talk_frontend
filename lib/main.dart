@@ -4,6 +4,7 @@ import 'package:lotalk_frontend/src/preferences.dart';
 import 'src/app.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await SharedPrefs().init();
   runApp(const MyApp());
 }

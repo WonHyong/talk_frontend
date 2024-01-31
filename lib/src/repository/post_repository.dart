@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:lotalk_frontend/src/model/create_comment.dart';
+import 'package:lotalk_frontend/src/model/detail_post.dart';
 import 'package:lotalk_frontend/src/repository/base_repository.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -6,6 +8,8 @@ import 'package:lotalk_frontend/src/model/page_response.dart';
 import 'package:lotalk_frontend/src/model/post.dart';
 import 'package:lotalk_frontend/src/network/post_client.dart';
 import 'package:lotalk_frontend/src/network/token_interceptor.dart';
+
+import '../model/create_post.dart';
 
 class PostRepository implements BaseRepository {
   // singleton
@@ -22,10 +26,12 @@ class PostRepository implements BaseRepository {
   }
 
   Future<PageResponse<Post>> getPosts({int page = 0}) => _client.getPosts(page);
-  Future<Post> getPostDetail(int postId) => _client.getPostDetail(postId);
-  Future<Post> createPost(Post body) => _client.createPost(body);
-  Future<Post> updatePost(int postId, Post body) =>
+  Future<DetailPost> getPostDetail(int postId) => _client.getPostDetail(postId);
+  Future<HttpResponse> createPost(CreatePost body) => _client.createPost(body);
+  Future<HttpResponse> updatePost(int postId, CreatePost body) =>
       _client.updatePost(postId, body);
   Future<HttpResponse> deletePost(int postId) => _client.deletePost(postId);
   Future<HttpResponse> likePost(int postId) => _client.likePost(postId);
+  Future<HttpResponse> createComment(int postId, CreateComment body) =>
+      _client.createComment(postId, body);
 }

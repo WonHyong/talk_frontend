@@ -51,13 +51,13 @@ class _PostClient implements PostClient {
   }
 
   @override
-  Future<Post> getPostDetail(int postId) async {
+  Future<DetailPost> getPostDetail(int postId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Post>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DetailPost>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -73,19 +73,19 @@ class _PostClient implements PostClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = Post.fromJson(_result.data!);
+    final value = DetailPost.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<Post> createPost(Post body) async {
+  Future<HttpResponse<dynamic>> createPost(CreatePost body) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
     final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Post>(Options(
+        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -101,14 +101,15 @@ class _PostClient implements PostClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = Post.fromJson(_result.data!);
-    return value;
+    final value = _result.data;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
   }
 
   @override
-  Future<Post> updatePost(
+  Future<HttpResponse<dynamic>> updatePost(
     int postId,
-    Post body,
+    CreatePost body,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -116,7 +117,7 @@ class _PostClient implements PostClient {
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
     final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Post>(Options(
+        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'PUT',
       headers: _headers,
       extra: _extra,
@@ -132,8 +133,9 @@ class _PostClient implements PostClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = Post.fromJson(_result.data!);
-    return value;
+    final value = _result.data;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
   }
 
   @override
@@ -179,6 +181,38 @@ class _PostClient implements PostClient {
             .compose(
               _dio.options,
               '/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data;
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> createComment(
+    int postId,
+    CreateComment body,
+  ) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _result =
+        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/${postId}/comments',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -13,19 +13,22 @@ class Post {
   int numComment;
   String createdDate, modifiedDate;
 
-  Post({required this.id, 
-  required this.title,
-  this.content,
-  required this.writer, 
-  required this.like, 
-  required this.view, 
-  required this.numComment,
-  required this.createdDate,
-  required this.modifiedDate});
+  Post({
+    required this.id,
+    required this.title,
+    this.content,
+    required this.writer,
+    required this.like,
+    required this.view,
+    required this.numComment,
+    required this.createdDate,
+    required this.modifiedDate});
+
 
   bool isLikedPost() => like < 0;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+
   
   Map<String, dynamic> toJson() => _$PostToJson(this); 
 }
